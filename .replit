@@ -1,12 +1,12 @@
 entrypoint = "index.js"
-modules = ["nodejs-20"]
+modules = ["nodejs-20", "nix"]
 hidden = [".config", "package-lock.json"]
 
 [gitHubImport]
 requiredFiles = [".replit", "replit.nix", "package.json", "package-lock.json"]
 
 [nix]
-channel = "stable-24_05"
+channel = "stable-25_05"
 
 [unitTest]
 language = "nodejs"
@@ -17,5 +17,9 @@ deploymentTarget = "cloudrun"
 ignorePorts = false
 
 [[ports]]
-localPort = 3000
-externalPort = 80
+localPort = 5000
+externalPort = 5000
+
+[[ports]]
+localPort = 5000
+externalPort = 5000
