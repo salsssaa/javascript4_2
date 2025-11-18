@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Jokebook</title>
+</head>
+<body>
+  <h1>Jokebook</h1>
+
+  <button id="getCategories">Pobierz kategorie</button>
+  <ul id="categoriesList"></ul>
+
+  <input type="text" id="categoryInput" placeholder="Wpisz kategorię">
+  <button id="getJoke">Pobierz losowego żartu</button>
+  <p id="jokeOutput"></p>
+
+  <script>
+    const categoriesList = document.getElementById('categoriesList');
+    const jokeOutput = document.getElementById('jokeOutput');
+
+    document.getElementById('getCategories').addEventListener('click', () => {
+      fetch('http://localhost:5000/jokebook/categories')
+        .then(res => res.json())
+        .then(data => {
+          categoriesList.innerHTML = '';
+          data.forEach(cat => {
+            const li = document.createElement('li');
+            li.textContent = cat;
+            categoriesList.appendChild(li);
+          });
+        })
+        .catch(err => console.error(err));
+    });
+
+    document.getElementById('getJoke').addEventListener('click', () => {
+      const category = document.getElementById('categoryInput').value;
+      fetch(`http://localhost:5000/jokebook/joke/${category}`)
+        .then(res => res.json())
+        .then(data => {
+          if(data.error) jokeOutput.textContent = data.error;
+          else jokeOutput.textContent = `${data.joke} - ${data.response}`;
+        })
+        .catch(err => console.error(err));
+    });
+  </script>
+</body>
+</html>
